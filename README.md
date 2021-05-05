@@ -1,3 +1,3 @@
 # BenchmarkConsoleTest
 
-Was trying ReadOnlySpan to improve MObing Average Implementation.
+Trying out ReadOnlySpan to improve Moving Average Implementation.
