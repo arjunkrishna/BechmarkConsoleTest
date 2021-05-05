@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,34 @@ namespace BenchmarkConsole
 {
     public class RandomNumberGenerator
     {
+        //public static float[] GenerateRandomFloatArray(int countOfNumber)
+        //{
+
+        //    float[] result = new float[countOfNumber];
+        //    for (int i = 0; i < countOfNumber; i++)
+        //    {
+        //        result[i] = i;
+        //    }
+
+        //    return result;
+        //}
+
         public static float[] GenerateRandomFloatArray(int countOfNumber)
         {
-            var randNum = new Random();
-            return Enumerable
-                .Repeat(0, countOfNumber)
-                .Select<int, float>(i => NextFloat(randNum))
-                .ToArray();
+            var random = new Random();
+            float[] result = new float[countOfNumber];
+            float[] array = ArrayPool<float>.Shared.Rent(countOfNumber);
+
+            foreach (ref float x in array.AsSpan())
+            {
+                //x = NextFloat(random);
+                x = (float)random.NextDouble();
+            }
+
+            Array.Copy(array, result, countOfNumber);
+            ArrayPool<float>.Shared.Return(array);
+
+            return result;
         }
 
         private static float NextFloat(Random random)

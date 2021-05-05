@@ -48,27 +48,6 @@ namespace BenchmarkConsole
             Data = RandomNumberGenerator.GenerateRandomFloatArray(CountOfNumber);
         }
 
-
-        [Benchmark]
-        public float[] MovingAverageLinq()
-        {
-            return Enumerable
-                .Range(0, Data.Length - FrameSize)
-                .Select(n => Data.Skip(n).Take(FrameSize).Average())
-                .ToArray();
-        }
-
-        [Benchmark]
-        public float[] MovingAverageParallelLinq()
-        {
-            float[] result = new float[Data.Length];
-
-            Parallel.ForEach(Data,
-                (value, pls, index) => { result[index] = Data.Skip((int) index).Take(FrameSize).Average(); });
-
-            return result;
-        }
-
         [Benchmark]
         public float[] MovingAverageQueue()
         {
@@ -87,56 +66,6 @@ namespace BenchmarkConsole
 
             return dataList.ToArray();
         }
-
-        [Benchmark]
-        public float[] MovingAverageNestedLoop()
-        {
-            var dataList = new List<float>();
-
-            for (var outerLoopCounter = 0; outerLoopCounter < Data.Count(); outerLoopCounter++)
-            {
-                if (outerLoopCounter < FrameSize - 1) continue;
-                var total = 0.0f;
-                for (var innerLoopCounter = outerLoopCounter;
-                    innerLoopCounter > (outerLoopCounter - FrameSize);
-                    innerLoopCounter--)
-                    total += Data[innerLoopCounter];
-                var average = (total * 1.0f) / FrameSize;
-                dataList.Add(average);
-            }
-
-            return dataList.ToArray();
-        }
-
-        [Benchmark]
-        public float[] MovingAverageBufferAndFrameLengthSame()
-        {
-            var dataList = new List<float>();
-            var buffer = new float[FrameSize];
-            var currentIndex = 0;
-            var isBufferFilledAtleastOnce = false;
-            foreach (float dataValue in Data)
-            {
-                buffer[currentIndex] = dataValue;
-                var circularBufferSum = 0.0f;
-                for (var j = 0; j < FrameSize; j++)
-                {
-                    circularBufferSum += buffer[j];
-                }
-
-                var movingAverage = isBufferFilledAtleastOnce
-                    ? (circularBufferSum / FrameSize)
-                    : (circularBufferSum / (currentIndex + 1));
-                dataList.Add(movingAverage);
-
-                currentIndex = (currentIndex + 1) % FrameSize;
-                if (!isBufferFilledAtleastOnce && currentIndex == FrameSize)
-                    isBufferFilledAtleastOnce = true;
-            }
-
-            return dataList.ToArray();
-        }
-
 
         [Benchmark]
         public float[] MovingAverageArray()

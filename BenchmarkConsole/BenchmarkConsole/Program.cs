@@ -8,7 +8,7 @@ namespace BenchmarkConsole
         static void Main(string[] args)
         {
             var summary = BenchmarkRunner.Run<MovingAverageImplementations>();
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }
