@@ -2,6 +2,7 @@
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,41 +10,29 @@ namespace BenchmarkConsole
 {
     public class RandomNumberGenerator
     {
-        //public static float[] GenerateRandomFloatArray(int countOfNumber)
-        //{
-
-        //    float[] result = new float[countOfNumber];
-        //    for (int i = 0; i < countOfNumber; i++)
-        //    {
-        //        result[i] = i;
-        //    }
-
-        //    return result;
-        //}
-
-        public static float[] GenerateRandomFloatArray(int countOfNumber)
+        public static double[] GenerateRandomArray(int countOfNumber)
         {
-            var random = new Random();
-            float[] result = new float[countOfNumber];
-            float[] array = ArrayPool<float>.Shared.Rent(countOfNumber);
+            var random = new Random(GenerateSeed());
+            var result = new double[countOfNumber];
+            var array = ArrayPool<double>.Shared.Rent(countOfNumber);
 
-            foreach (ref float x in array.AsSpan())
+            foreach (ref var x in array.AsSpan())
             {
-                //x = NextFloat(random);
-                x = (float)random.NextDouble();
+                x = random.NextDouble();
             }
 
             Array.Copy(array, result, countOfNumber);
-            ArrayPool<float>.Shared.Return(array);
+            ArrayPool<double>.Shared.Return(array);
 
             return result;
         }
 
-        private static float NextFloat(Random random)
+        public static int GenerateSeed()
         {
-            double mantissa = (random.NextDouble() * 2.0) - 1.0;
-            double exponent = Math.Pow(2.0, random.Next(-126, 128));
-            return (float)(mantissa * exponent);
+            byte[] bytes = new byte[4];
+            var rngCsp = new RNGCryptoServiceProvider();
+            rngCsp.GetBytes(bytes);
+            return BitConverter.ToInt32(bytes, 0);
         }
-    }
+}
 }

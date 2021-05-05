@@ -11,11 +11,14 @@ namespace TestProject
         {
             var app = new MovingAverageImplementations(10,3);
             var data = app.Data;
+            
+            //var result6 = app.MovingAverageLinq();
+            //var result7 = app.MovingAverageParallelLinq();
+            //var result8 = app.MovingAverageNestedLoop();
+            //var result9 = app.MovingAverageBufferAndFrameLengthSame();
             var result1 = app.MovingAverageQueue();
-            //var result2 = app.MovingAverageArray();
-            var result3 = app.GetMovingAverageDeltaSum();
-            var result4 = app.MovingAverageDeltaSumManipulationSpan();
-            var result5 = app.MovingAverageDeltaSumSpanArrayPool();
+            var result2 = app.MovingAverageArray();
+            var result5 = app.MovingAverageDeltaSum();
 
             var x = "";
 
