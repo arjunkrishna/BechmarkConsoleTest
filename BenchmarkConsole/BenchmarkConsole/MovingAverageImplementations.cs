@@ -18,9 +18,9 @@ namespace BenchmarkConsole
     [MemoryDiagnoser]
     [Orderer(SummaryOrderPolicy.FastestToSlowest)]
     [RankColumn]
+    [RPlotExporter] //https://cran.mirrors.hoobly.com/
     public class MovingAverageImplementations
     {
-        private ImmutableQueue<double> _immutableQueue;
 
         //private class Config : ManualConfig
         //{
@@ -33,10 +33,10 @@ namespace BenchmarkConsole
 
         public double[] Data { get; private set; }
 
-        //[Params(10, 20)] 
+        [Params(10)] 
         public int FrameSize { get; set; }
 
-        //[Params(100, 1000, 10000)] 
+        [Params(100, 1000, 10000)] 
         public int CountOfNumber { get; set; }
 
         public MovingAverageImplementations() : this(1000, 20)
