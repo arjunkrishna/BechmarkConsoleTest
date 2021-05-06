@@ -13,24 +13,13 @@ using BenchmarkDotNet.Order;
 
 namespace BenchmarkConsole
 {
-    //[Config(typeof(Config))]
-    //[MarkdownExporter, AsciiDocExporter, HtmlExporter, CsvExporter, RPlotExporter, CsvMeasurementsExporter]
     [MemoryDiagnoser]
     [Orderer(SummaryOrderPolicy.FastestToSlowest)]
     [RankColumn]
-    [RPlotExporter] //https://cran.mirrors.hoobly.com/
+    //[RPlotExporter] //https://cran.mirrors.hoobly.com/
+    //\BenchmarkConsoleTest\BenchmarkConsole\BenchmarkConsole\bin\Release\net5.0\BenchmarkDotNet.Artifacts\results
     public class MovingAverageImplementations
     {
-
-        //private class Config : ManualConfig
-        //{
-        //    public Config()
-        //    {
-        //        AddExporter(CsvMeasurementsExporter.Default);
-        //        AddExporter(RPlotExporter.Default);
-        //    }
-        //}
-
         public double[] Data { get; private set; }
 
         [Params(10)] 
