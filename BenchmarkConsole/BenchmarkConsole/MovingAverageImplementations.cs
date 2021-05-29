@@ -22,11 +22,9 @@ namespace BenchmarkConsole
     {
         public double[] Data { get; private set; }
 
-        [Params(10)] 
-        public int FrameSize { get; set; }
+        [Params(10)] public int FrameSize { get; set; }
 
-        [Params(100, 1000, 10000)] 
-        public int CountOfNumber { get; set; }
+        [Params(100, 1000, 10000)] public int CountOfNumber { get; set; }
 
         public MovingAverageImplementations() : this(1000, 20)
         {
@@ -116,8 +114,8 @@ namespace BenchmarkConsole
         {
             var dataArray = new double[Data.Length];
             var frameSizedQueue = new Queue<double>(FrameSize);
-            
-            for(int i = 0; i < Data.Length; i++)
+
+            for (int i = 0; i < Data.Length; i++)
             {
                 if (frameSizedQueue.Count == FrameSize)
                 {
@@ -144,12 +142,16 @@ namespace BenchmarkConsole
             {
                 if (dataItemIndexCounter <= FrameSize - 1)
                 {
-                    movingAverage[dataItemIndexCounter] = movingAverage[dataItemIndexCounter - 1] * (dataItemIndexCounter / (dataItemIndexCounter + 1.0d)) + (Data[dataItemIndexCounter] / (dataItemIndexCounter + 1.0d));
+                    movingAverage[dataItemIndexCounter] =
+                        movingAverage[dataItemIndexCounter - 1] *
+                        (dataItemIndexCounter / (dataItemIndexCounter + 1.0d)) +
+                        (Data[dataItemIndexCounter] / (dataItemIndexCounter + 1.0d));
                 }
                 else
                 {
-                    movingAverage[dataItemIndexCounter] = movingAverage[dataItemIndexCounter - 1] + (Data[dataItemIndexCounter] / (FrameSize * 1.0d)) -
-                                       Data[dataItemIndexCounter - FrameSize] / FrameSize * 1.0d;
+                    movingAverage[dataItemIndexCounter] =
+                        movingAverage[dataItemIndexCounter - 1] + (Data[dataItemIndexCounter] / (FrameSize * 1.0d)) -
+                        Data[dataItemIndexCounter - FrameSize] / FrameSize * 1.0d;
                 }
             }
 
@@ -186,7 +188,7 @@ namespace BenchmarkConsole
 
                 dataList[dataItemIndexCounter] = (cumulativeSum / (currentFrameSize * 1.0d));
             }
-            
+
             Array.Copy(dataList, result, Data.Length);
             samePool.Return(dataList);
 
