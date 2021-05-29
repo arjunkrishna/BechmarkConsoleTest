@@ -20,8 +20,8 @@ jobs:
         dotnet-version: 5.0.100
         # Previous: dotnet-version: 5.0.100-preview.5.20279.10
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore BenchmarkConsole/BenchmarkConsole.sln
     - name: Build
       run: dotnet build BenchmarkConsole/BenchmarkConsole.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test BenchmarkConsole/BenchmarkConsole.sln --no-restore --verbosity normal

@@ -19,7 +19,7 @@ namespace TestProject
             var result1 = app.MovingAverageQueue();
             var result2 = app.MovingAverageArray();
             var result5 = app.MovingAverageDeltaSum();
-            var result6 = app.MovingAverageCumulativeSum();
+           // var result6 = app.MovingAverageCumulativeSum();
 
             var x = "";
 
