@@ -1,0 +1,27 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ Main ]
+  pull_request:
+    branches: [ Main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        # See: https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json
+        dotnet-version: 5.0.100
+        # Previous: dotnet-version: 5.0.100-preview.5.20279.10
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
