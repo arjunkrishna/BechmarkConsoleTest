@@ -31,8 +31,7 @@ namespace BenchmarkConsole
         public static int GenerateSeed()
         {
             byte[] bytes = new byte[4];
-            //var rngCsp = new RNGCryptoServiceProvider();
-            //rngCsp.GetBytes(bytes);
+           
             using (System.Security.Cryptography.RandomNumberGenerator rng = System.Security.Cryptography.RandomNumberGenerator.Create())
             {
                 rng.GetBytes(bytes);
