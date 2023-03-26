@@ -10,6 +10,11 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
+using ComputeSharp;
+
+using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace BenchmarkConsole
 {
@@ -108,6 +113,21 @@ namespace BenchmarkConsole
             return dataList.ToArray();
         }
         */
+
+        [Benchmark]
+        public void ComputeSharpMovingAverage()
+        {
+            // Create the input and output buffers
+            var dateItems = Data.Select(i => new DataItem { Value = i }).ToArray();//.AsMemory();
+            using ReadOnlyBuffer<DataItem> input = GraphicsDevice.GetDefault().AllocateReadOnlyBuffer<DataItem>(dateItems);
+            using ReadWriteBuffer<DataItem> output = GraphicsDevice.GetDefault().AllocateReadWriteBuffer<DataItem>(Data.Length);
+
+            
+
+            // Create the kernel and execute it
+            int windowSize = FrameSize;
+            GraphicsDevice.GetDefault().For(input.Length, new MovingAverageKernel(input, output, windowSize));
+        }
 
         [Benchmark]
         public double[] MovingAverageQueue()
